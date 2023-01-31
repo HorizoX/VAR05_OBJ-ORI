@@ -53,8 +53,7 @@ public class ComposerScript : MonoBehaviour
     // Add a note to the composition when a button is pressed.
     public void AddNote(AudioSource audioSource)
     {
-        if (audioSource != null)
-        {
+        
             
             notesInComposition.Add(audioSource);
 
@@ -64,12 +63,9 @@ public class ComposerScript : MonoBehaviour
             // Add the name of the audio source to the dropdown options.
             noteDropdown.options.Add(new TMP_Dropdown.OptionData(audioSource.name));
 
-        }
+        
 
-        else
-        {
-            Debug.LogError("Audio source is null");
-        }
+      
         
     }
 
