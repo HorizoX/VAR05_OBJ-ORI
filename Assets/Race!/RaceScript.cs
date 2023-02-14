@@ -66,18 +66,18 @@ public class RaceScript : MonoBehaviour
         // If the player is on the finish line tile, the player wins
         if (courseTiles[playerTile].tag == "FinishLine")
         {
-            Debug.Log("Player wins!");
+            Debug.Log("Red Player wins!");
         }
         // Otherwise, the AI wins
         else
         {
-            Debug.Log("AI wins!");
+            Debug.Log("Yellow Player wins!");
         }
     }
 
     private void MoveRunner(GameObject runner, int regularTerrainChance, int muddyTerrainChance)
     {
-        Debug.Log("This is a debug log message.");
+        Debug.Log("Lap");
         // Generate a random number between 0 and 100
         int randomNum = Random.Range(0, 100);
 
