@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
         // All bust, bets returned
         if (playerBust && dealerBust)
         {
-            mainText.text = "All Bust Tarnished!";
+            mainText.text = "Tie! You Lose Tarnished!";
         }
         // if player busts, dealer didnt, or if dealer has more points, dealer wins
         else if (playerBust || (!dealerBust && dealerScript.handValue > playerScript.handValue))
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         //Check for tie, return bets
         else if (playerScript.handValue == dealerScript.handValue)
         {
-            mainText.text = "Push Tarnished!";
+            mainText.text = "Tie! You Lose Tarnished!";
         }
         else
         {
