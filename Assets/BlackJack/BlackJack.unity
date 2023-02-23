@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 94043870}
   - component: {fileID: 94043869}
   m_Layer: 5
-  m_Name: Hit
+  m_Name: Hit_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3905,7 +3905,7 @@ GameObject:
   - component: {fileID: 1892081306}
   - component: {fileID: 1892081305}
   m_Layer: 5
-  m_Name: Deal
+  m_Name: Deal_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4039,7 +4039,7 @@ GameObject:
   - component: {fileID: 1988512263}
   - component: {fileID: 1988512262}
   m_Layer: 5
-  m_Name: Stand
+  m_Name: Stand_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

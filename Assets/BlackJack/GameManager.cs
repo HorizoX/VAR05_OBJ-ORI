@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         standClicks++;
         if (standClicks > 1) RoundOver();
         HitDealer();
-        standBtnText.text = "Call";
+        standBtnText.text = "You Sure?";
     }
 
     public void HitDealer()
