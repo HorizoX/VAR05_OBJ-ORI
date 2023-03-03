@@ -5,17 +5,20 @@ using UnityEngine;
 public class CheckersBoard : MonoBehaviour
 {
     public CheckerPiece[,] Pieces = new CheckerPiece[8, 8];
-    private CheckerPiece SelectedPiece;
+    
     public GameObject WhitePiecePrefab;
     public GameObject BlackPiecePrefab;
 
     private Vector3 BoardOffset = new Vector3(-4.0f, 0, -4.0f);
     private Vector3 PieceOffset = new Vector3(0.5f, 0, 0.5f);
 
-    private bool IsWhite;
+    public bool IsWhite;
     private bool IsItWhiteTurn;
+    private bool IsKilled; 
 
-    
+    private CheckerPiece SelectedPiece;
+    private List<CheckerPiece> ForcedPieces;
+
     private Vector2 MouseOver;
     private Vector2 StartDrag;
     private Vector2 EndDrag;
@@ -23,6 +26,7 @@ public class CheckersBoard : MonoBehaviour
     private void Start()
     {
         IsItWhiteTurn = true;
+        ForcedPieces = new List<CheckerPiece>();
         GenerateBoard();
     }
 
@@ -102,23 +106,40 @@ public class CheckersBoard : MonoBehaviour
     {
         //If we are out of bounds
 
-        if (x < 0  || x >= Pieces.Length || y < 0 || y >= Pieces.Length)
+        if (x < 0  || x >= 8 || y < 0 || y >= 8)
         {
             return;
         }
 
         CheckerPiece P = Pieces[x, y];
 
-        if (P != null)
+        if (P != null && P.IsWhite == IsWhite)
         {
-            SelectedPiece = P;
-            StartDrag = MouseOver;
-            Debug.Log(SelectedPiece.name);
+            if (ForcedPieces.Count == 0)
+            {
+                SelectedPiece = P;
+                StartDrag = MouseOver;
+            }
+            else
+            {
+                //look for the piece under our forced pieces list
+                if (ForcedPieces.Find(FP => FP == P) == null)
+                {
+                    return;
+                }
+
+                SelectedPiece = P;
+                StartDrag = MouseOver;
+            }
+            
+
         }
     }
 
     private void TryMove(int x1, int y1, int x2, int y2)
     {
+
+        ForcedPieces = ScanForPossibleMove();
         //Multiplayer Support
         StartDrag = new Vector2(x1, y1);
         EndDrag = new Vector2(x2, y2);
@@ -126,7 +147,7 @@ public class CheckersBoard : MonoBehaviour
 
         
         //check if we are out of bounds
-        if (x2 < 0 || x2 >= Pieces.Length || y2 < 0 || y2 >= Pieces.Length)
+        if (x2 < 0 || x2 >= 8 || y2 < 0 || y2 >= 8)
         {
             if (SelectedPiece != null)
             {
@@ -156,14 +177,24 @@ public class CheckersBoard : MonoBehaviour
             {
                 // Did we kill Anything?
                 // If This is a jump
-                if (Mathf.Abs(x2-x2) == 2)
+                if (Mathf.Abs(x2 - x1) == 2)
                 {
                     CheckerPiece P = Pieces[(x1 + x2) / 2, (y1 + y2) / 2];
                     if (P != null)
                     {
                         Pieces[(x1 + x2) / 2, (y1 + y2) / 2] = null;
-                        Destroy(P);
+                        DestroyImmediate(P.gameObject);
+                        IsKilled = true;
                     }
+                }
+
+                //Were we supoosed to kill anything?
+                if (ForcedPieces.Count != 0 && !IsKilled)
+                {
+                    MovePiece(SelectedPiece, x1, y1);
+                    StartDrag = Vector2.zero;
+                    SelectedPiece = null;
+                    return;
                 }
 
                 Pieces[x2, y2] = SelectedPiece;
@@ -174,15 +205,52 @@ public class CheckersBoard : MonoBehaviour
                 EndTurn();
 
            }
+            else
+            {
+                MovePiece(SelectedPiece, x1, y1);
+                StartDrag = Vector2.zero;
+                SelectedPiece = null;
+                return;
+            }
         }
     }
 
     private void EndTurn()
     {
+        //Where we landed during the turn
+        int x = (int)EndDrag.x;
+        int y = (int)EndDrag.y;
+
+
+        //Promotion to a king for both Black and White
+        if (SelectedPiece != null)
+        {
+            if (SelectedPiece.IsWhite && !SelectedPiece.IsKing && y == 7)
+            {
+                SelectedPiece.IsKing = true;
+                SelectedPiece.transform.Rotate(Vector3.right * 180);
+            }
+
+
+            else if (!SelectedPiece.IsWhite && !SelectedPiece.IsKing && y == 0)
+            {
+                SelectedPiece.IsKing = true;
+                SelectedPiece.transform.Rotate(Vector3.right * 180);
+            }
+        }
+
         SelectedPiece = null;
         StartDrag = Vector2.zero;
 
+        if (ScanForPossibleMove(SelectedPiece, x, y).Count != 0 && IsKilled)
+        {
+            return;
+        }
+
+
         IsItWhiteTurn = !IsItWhiteTurn;
+        IsWhite = !IsWhite;
+        IsKilled = false;
         CheckVictory();
 
     }
@@ -192,6 +260,38 @@ public class CheckersBoard : MonoBehaviour
 
     }
 
+    private List<CheckerPiece> ScanForPossibleMove(CheckerPiece P, int x, int y)
+    {
+        ForcedPieces = new List<CheckerPiece>();
+
+        if (Pieces[x, y].IsForceToMove(Pieces, x, y))
+        {
+            ForcedPieces.Add(Pieces[x, y]);
+        }
+
+        return ForcedPieces;
+    }
+    private List<CheckerPiece> ScanForPossibleMove()
+    {
+        ForcedPieces = new List<CheckerPiece>();
+
+        //Check All the pieces
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                if (Pieces[i,j] != null && Pieces[i, j].IsWhite == IsItWhiteTurn)
+                {
+                    if (Pieces[i, j].IsForceToMove(Pieces, i, j))
+                    {
+                        ForcedPieces.Add(Pieces[i, j]);
+                    }
+                }
+            }
+        }
+
+        return ForcedPieces;
+    }
     private void GenerateBoard()
     {
 
@@ -234,7 +334,5 @@ public class CheckersBoard : MonoBehaviour
     private void MovePiece(CheckerPiece P, int x, int y)
     {
         P.transform.position = (Vector3.right * x) + (Vector3.forward * y) + BoardOffset + PieceOffset;
-
-
     }
 }
