@@ -6,5 +6,5 @@ using UnityEngine;
 
 public class VRButtonInput : MonoBehaviour
 {
-   VRInputactions vr
+   //VRInputactions vr
 }
