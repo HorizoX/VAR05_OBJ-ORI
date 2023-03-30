@@ -4,9 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - MuddyTerrain
-  - GrassyTerrain
-  - FinishLine
+  - Translucent
+  - Balls
   layers:
   - Default
   - TransparentFX
