@@ -3,39 +3,21 @@
     "maps": [
         {
             "name": "Default",
-            "id": "6c02b9df-4ee3-4df4-b0fd-3997afa6234d",
+            "id": "e20bf20b-e441-4f8e-bb8a-6890fbe0528c",
             "actions": [
                 {
-                    "name": "LFlipper",
-                    "type": "Value",
-                    "id": "89ab98da-77e3-4950-bc7f-9f1f03a9314d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "RFlipper",
-                    "type": "Value",
-                    "id": "34095f93-f875-4463-864b-4349cef81a19",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Plunger",
+                    "name": "Primary",
                     "type": "Button",
-                    "id": "075cb102-f564-4486-8250-7dd73bd7ae35",
+                    "id": "d7a1dd65-26e3-4d68-a19c-9b10757f9d77",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Joystick",
                     "type": "Value",
-                    "id": "223de6f9-8abd-462b-8100-d75180030698",
+                    "id": "61fb3423-595d-4c64-838d-040aea999729",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -44,7 +26,7 @@
                 {
                     "name": "RightTrigger",
                     "type": "Value",
-                    "id": "1046e562-b248-4c21-bb16-a83f3f9528b0",
+                    "id": "ae77003e-8e63-4aba-895d-6cfe8bd4fedd",
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
@@ -54,88 +36,33 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "b270f028-a9b4-4ac6-bb79-02edda748ea4",
-                    "path": "<Keyboard>/z",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "K&M",
-                    "action": "LFlipper",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "99085299-0805-466d-816d-b01ff5b9f0f7",
-                    "path": "<OculusTouchController>{LeftHand}/triggerPressed",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "VR",
-                    "action": "LFlipper",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "52f4435b-b87b-4fbc-9b2f-ed34cd89498a",
-                    "path": "<Keyboard>/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "K&M",
-                    "action": "RFlipper",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5423ec89-bc23-498a-a978-371d10c158db",
-                    "path": "<OculusTouchController>{RightHand}/triggerPressed",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "VR",
-                    "action": "RFlipper",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7b39d4ee-caa9-461c-b330-a6166f2a2c35",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "K&M",
-                    "action": "Plunger",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c9ce401e-7572-4834-9a77-42c78947a98e",
+                    "id": "bca88909-72b5-4bbf-8397-de36353060a5",
                     "path": "<OculusTouchController>/primaryButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "VR",
-                    "action": "Plunger",
+                    "groups": "",
+                    "action": "Primary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "153621e5-13a9-4a3a-b20c-3a565e935cd2",
+                    "id": "5a2690aa-0749-4fde-b8a8-ee26abf531b3",
                     "path": "<OculusTouchController>/thumbstick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "VR",
+                    "groups": "",
                     "action": "Joystick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "4be033f1-7394-444d-9f77-e2bb4d066dac",
+                    "id": "ee8e8d13-eab9-452c-adb5-14a869f84f47",
                     "path": "<XRController>{RightHand}/trigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "VR",
+                    "groups": "",
                     "action": "RightTrigger",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -143,43 +70,5 @@
             ]
         }
     ],
-    "controlSchemes": [
-        {
-            "name": "K&M",
-            "bindingGroup": "K&M",
-            "devices": [
-                {
-                    "devicePath": "<Mouse>",
-                    "isOptional": false,
-                    "isOR": false
-                },
-                {
-                    "devicePath": "<Keyboard>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        },
-        {
-            "name": "VR",
-            "bindingGroup": "VR",
-            "devices": [
-                {
-                    "devicePath": "<OpenXRHmd>",
-                    "isOptional": false,
-                    "isOR": false
-                },
-                {
-                    "devicePath": "<OculusTouchController>{LeftHand}",
-                    "isOptional": false,
-                    "isOR": false
-                },
-                {
-                    "devicePath": "<OculusTouchController>{RightHand}",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        }
-    ]
+    "controlSchemes": []
 }

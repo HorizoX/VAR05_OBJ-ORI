@@ -28,6 +28,15 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
             ""id"": ""6c02b9df-4ee3-4df4-b0fd-3997afa6234d"",
             ""actions"": [
                 {
+                    ""name"": ""Primary"",
+                    ""type"": ""Button"",
+                    ""id"": ""6afd8360-0272-48cf-afd7-46973040070f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""LFlipper"",
                     ""type"": ""Value"",
                     ""id"": ""89ab98da-77e3-4950-bc7f-9f1f03a9314d"",
@@ -74,28 +83,6 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""b270f028-a9b4-4ac6-bb79-02edda748ea4"",
-                    ""path"": ""<Keyboard>/z"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""K&M"",
-                    ""action"": ""LFlipper"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""99085299-0805-466d-816d-b01ff5b9f0f7"",
-                    ""path"": ""<OculusTouchController>{LeftHand}/triggerPressed"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""VR"",
-                    ""action"": ""LFlipper"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""52f4435b-b87b-4fbc-9b2f-ed34cd89498a"",
@@ -161,6 +148,39 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""RightTrigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9a2122f5-0b4a-4b95-a6ac-2dca15f68a5d"",
+                    ""path"": ""<OculusTouchController>/primaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Primary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b270f028-a9b4-4ac6-bb79-02edda748ea4"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""K&M"",
+                    ""action"": ""LFlipper"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""99085299-0805-466d-816d-b01ff5b9f0f7"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/triggerPressed"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""VR"",
+                    ""action"": ""LFlipper"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -207,6 +227,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
 }");
         // Default
         m_Default = asset.FindActionMap("Default", throwIfNotFound: true);
+        m_Default_Primary = m_Default.FindAction("Primary", throwIfNotFound: true);
         m_Default_LFlipper = m_Default.FindAction("LFlipper", throwIfNotFound: true);
         m_Default_RFlipper = m_Default.FindAction("RFlipper", throwIfNotFound: true);
         m_Default_Plunger = m_Default.FindAction("Plunger", throwIfNotFound: true);
@@ -271,6 +292,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
     // Default
     private readonly InputActionMap m_Default;
     private IDefaultActions m_DefaultActionsCallbackInterface;
+    private readonly InputAction m_Default_Primary;
     private readonly InputAction m_Default_LFlipper;
     private readonly InputAction m_Default_RFlipper;
     private readonly InputAction m_Default_Plunger;
@@ -280,6 +302,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
     {
         private @VRInputActions m_Wrapper;
         public DefaultActions(@VRInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Primary => m_Wrapper.m_Default_Primary;
         public InputAction @LFlipper => m_Wrapper.m_Default_LFlipper;
         public InputAction @RFlipper => m_Wrapper.m_Default_RFlipper;
         public InputAction @Plunger => m_Wrapper.m_Default_Plunger;
@@ -294,6 +317,9 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_DefaultActionsCallbackInterface != null)
             {
+                @Primary.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnPrimary;
+                @Primary.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnPrimary;
+                @Primary.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnPrimary;
                 @LFlipper.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLFlipper;
                 @LFlipper.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLFlipper;
                 @LFlipper.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLFlipper;
@@ -313,6 +339,9 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
             m_Wrapper.m_DefaultActionsCallbackInterface = instance;
             if (instance != null)
             {
+                @Primary.started += instance.OnPrimary;
+                @Primary.performed += instance.OnPrimary;
+                @Primary.canceled += instance.OnPrimary;
                 @LFlipper.started += instance.OnLFlipper;
                 @LFlipper.performed += instance.OnLFlipper;
                 @LFlipper.canceled += instance.OnLFlipper;
@@ -352,6 +381,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
     }
     public interface IDefaultActions
     {
+        void OnPrimary(InputAction.CallbackContext context);
         void OnLFlipper(InputAction.CallbackContext context);
         void OnRFlipper(InputAction.CallbackContext context);
         void OnPlunger(InputAction.CallbackContext context);
